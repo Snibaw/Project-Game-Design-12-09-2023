@@ -23,4 +23,12 @@ public abstract class BaseAvatar : MonoBehaviour
         Destroy(explosion,0.6f);
         Destroy(gameObject);
     }
+    public virtual IEnumerator BecomeInvincible() 
+    {
+        yield return null;
+    } 
+    public virtual void GainHealth(float _health)
+    {
+        health += _health; 
+    }
 }

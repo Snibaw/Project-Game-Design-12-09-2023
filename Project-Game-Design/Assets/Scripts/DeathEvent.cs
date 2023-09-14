@@ -9,6 +9,6 @@ public class DeathEvent : MonoBehaviour
 
     public void Die()
     {
-        OnDeath?.Invoke(gameObject);
+        if(OnDeath != null) OnDeath?.Invoke(gameObject);
     }
 }

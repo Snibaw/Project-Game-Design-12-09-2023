@@ -34,7 +34,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 6.3981543, y: -0.9894879, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -120,10 +120,10 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.14044857, y: -0.105336726}
+  m_Offset: {x: 0.10119581, y: -0.066086054}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -134,7 +134,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 5.037305, y: 3.9293265}
+  m_Size: {x: 7.627837, y: 6.0488505}
   m_EdgeRadius: 0
 --- !u!50 &6122238345762179308
 Rigidbody2D:
@@ -175,7 +175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac1206194335fac4897bcfad381ec5d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 5
+  maxSpeed: 3
   health: 2
   explosionPrefab: {fileID: 5347053884971907025, guid: 78f2f26fe4ee9a4499cedffd6c2955e1, type: 3}
   minXValueBeforeDestroy: -12
@@ -192,6 +192,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: {x: 0, y: 0}
+  dashMultiplier: 2
+  dashEnergyCost: 10
+  isPlayer: 0
+  xbounds:
+  - -15
+  - 15
+  ybounds:
+  - -3.5
+  - 3.5
 --- !u!114 &8197148836242481509
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,8 +213,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c42c92a22b35b0546b8e1fb60ac3634e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startSpeedMinValue: {x: -0.8, y: 0}
-  startSpeedMaxValue: {x: -1.2, y: 0}
+  timeBtwZigZag: 1
+  startSpeedMinValue: {x: -1, y: 1}
+  startSpeedMaxValue: {x: -2, y: 2}
+  isZigZaging: 1
 --- !u!114 &8577394849072139153
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,8 +230,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
-  speed: {x: -10, y: 0}
-  cooldown: 1
+  speed: {x: -6, y: 0}
+  cooldown: 2
   bulletPrefab: {fileID: 5124398161851028737, guid: 290d7a2d8149a1648ab1b763f1052fd5, type: 3}
 --- !u!114 &-4694217065687038594
 MonoBehaviour:

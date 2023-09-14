@@ -15,7 +15,7 @@ public class UIManager : MonoBehaviour
     {
         healthSlider.value = health;
     }
-    public void InitEnergieSlider(float maxEnergie)
+    public void SetMaxEnergieSliderValue(float maxEnergie)
     {
         energieSlider.maxValue = maxEnergie;
     }

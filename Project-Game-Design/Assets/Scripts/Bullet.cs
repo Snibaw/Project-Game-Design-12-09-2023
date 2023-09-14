@@ -11,16 +11,26 @@ public abstract class Bullet : MonoBehaviour
     [SerializeField] protected Vector2 speed;
 
     [SerializeField] protected float minXValueBeforeDestroy;
+    [SerializeField] private float spriralRotationSpeed;
     protected string targetTag;
+    private bool isSpriral = false;
     
-    public virtual void Init(Vector2 speed, float damage)
+    public virtual void Init(Vector2 speed, float damage, bool isSpriral = false, Vector3 rotation = default(Vector3))
     {
         this.speed = speed;
         this.damage = damage;
+        this.isSpriral = isSpriral;
+        this.transform.rotation = Quaternion.Euler(rotation);
     }
     protected virtual void UpdatePosition()
     {
-        transform.position += new Vector3(speed.x, speed.y, 0) * Time.deltaTime;
+        if(isSpriral)
+        {
+            transform.Rotate(0,0,spriralRotationSpeed);
+            transform.position += new Vector3(speed.x, speed.y, 0) * Time.deltaTime/3;
+        }
+        transform.position += transform.right * speed.x * Time.deltaTime;
+        transform.position += transform.up * speed.y * Time.deltaTime;
     }
     protected virtual void CheckIfNeedToDestroy()
     {

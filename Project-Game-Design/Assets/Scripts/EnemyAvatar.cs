@@ -10,6 +10,7 @@ public class EnemyAvatar : BaseAvatar
     {
         if (transform.position.x < minXValueBeforeDestroy)
         {
+            GameManager.instance.ChangeScoreText(-10);
             Destroy(gameObject);
         }
     }

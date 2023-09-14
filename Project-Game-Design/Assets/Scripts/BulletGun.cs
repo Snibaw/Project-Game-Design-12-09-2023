@@ -1,10 +1,18 @@
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class BulletGun : MonoBehaviour
 {
+    public enum weaponType
+    {
+        continuous,
+        diagonal,
+        spiral,
+    }
+    public weaponType currentWeaponType;
     [SerializeField] private float damage;
     [SerializeField] private Vector2 speed;
     [SerializeField] private float cooldown;
@@ -31,17 +39,16 @@ public class BulletGun : MonoBehaviour
         energieRegenFrom0 = energieRegen * 0.75f;
         uIManager = GameObject.Find("UIManager").GetComponent<UIManager>();
 
-        uIManager.InitEnergieSlider(maxEnergie);
+        uIManager.SetMaxEnergieSliderValue(maxEnergie);
     }
     private void Update() {
         timer -= Time.deltaTime;
-        if(canRegen) currentEnergie += currentEnergieRegen;
+        if(canRegen)
+            GainEnergie(currentEnergieRegen);
+        else
+            uIManager.SetEnergieSliderValue(currentEnergie);
         if(currentEnergie >= maxEnergie)
-        {
             canShoot = true;
-            currentEnergie = maxEnergie;
-        }
-        uIManager.SetEnergieSliderValue(Mathf.Clamp(currentEnergie,0,maxEnergie));
     }
     public void Fire()
     {
@@ -57,8 +64,7 @@ public class BulletGun : MonoBehaviour
             timer = cooldown;
             currentEnergie -= energieLostPerShots;
 
-            GameObject bullet = Instantiate(bulletPrefab, transform.position + new Vector3(0.5f,0,0), Quaternion.identity);
-            bullet.GetComponent<Bullet>().Init(speed, damage);
+            SpawnBullet();
 
             //If the energie goes down to 0, it regen slower
             if(currentEnergie <=0)
@@ -67,5 +73,61 @@ public class BulletGun : MonoBehaviour
                 currentEnergieRegen = energieRegenFrom0;
             }
         }
+    }
+    public void ChangeWeaponType()
+    {
+        int upgradeWeapon = PlayerPrefs.GetInt("weapon",0);
+        int currentMaxWeapons = 1;
+        if(upgradeWeapon < 3) return;
+        if(upgradeWeapon >= 3)
+            currentMaxWeapons = 2;
+        if(upgradeWeapon >= 6)
+            currentMaxWeapons = 3;
+
+        int newIndex = ((int)currentWeaponType + 1) % currentMaxWeapons;
+        currentWeaponType = (weaponType) newIndex;
+        GameManager.instance.ChangeWeaponTypeUI(newIndex);
+
+    }
+    void SpawnBullet()
+    {
+        switch(currentWeaponType)
+        {
+            case weaponType.continuous:
+                SpawnBulletContinuous();
+                break;
+            case weaponType.diagonal:
+                SpawnBulletContinuous();
+                SpawnBulletContinuous(false, new Vector3(0,0,45));
+                SpawnBulletContinuous(false, new Vector3(0,0,-45));
+                break;
+            case weaponType.spiral:
+                SpawnBulletContinuous(true, new Vector3(0,0,-45));
+                break;
+        }
+    }
+    void SpawnBulletContinuous(bool isSpriral = false, Vector3 rotation = default(Vector3))
+    {
+        GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+        bullet.GetComponent<Bullet>().Init(speed, damage, isSpriral, rotation);
+    }
+    public bool UseEnergie(float energieUsed)
+    {
+        if(currentEnergie >= energieUsed)
+        {
+            currentEnergie -= energieUsed;
+            return true;
+        }
+        return false;
+    }
+    public void GainEnergie(float energieGained)
+    {
+        currentEnergie = Mathf.Clamp(currentEnergie + energieGained, 0, maxEnergie);
+        uIManager.SetEnergieSliderValue(Mathf.Clamp(currentEnergie,0,maxEnergie));
+    }
+    public void GainMaxEnergie(float maxEnergieGained)
+    {
+        maxEnergie += maxEnergieGained;
+        uIManager.SetMaxEnergieSliderValue(maxEnergie);
     }
 }

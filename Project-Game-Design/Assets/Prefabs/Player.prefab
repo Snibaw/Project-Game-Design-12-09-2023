@@ -34,7 +34,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -123,7 +123,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 1.1162001, y: -0.38369393}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -134,7 +134,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 10, y: 10}
+  m_Size: {x: 7.7676, y: 5.7444873}
   m_EdgeRadius: 0
 --- !u!50 &5414615655370327861
 Rigidbody2D:
@@ -175,9 +175,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9875210a5d7e54947b926914b298760f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 10
+  maxSpeed: 8
   health: 5
   explosionPrefab: {fileID: 5347053884971907025, guid: 78f2f26fe4ee9a4499cedffd6c2955e1, type: 3}
+  invincibleTime: 2
 --- !u!114 &1444340329505239890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -191,6 +192,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: {x: 0, y: 0}
+  dashMultiplier: 1.5
+  dashEnergyCost: 10
+  isPlayer: 1
+  xbounds:
+  - -7
+  - -3
+  ybounds:
+  - -3.5
+  - 3.5
 --- !u!114 &2435503847680146333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,12 +213,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e76a167f5f2e5e54d8acc6a75200dec5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xbounds:
-  - -7
-  - -3.5
-  ybounds:
-  - -3.8
-  - 3.8
+  reloadDashTime: 2
+  timeBtwInputForDash: 0.2
 --- !u!114 &466018551265047649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -221,13 +227,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10ab7406640d3984ab88058ce245d179, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentWeaponType: 0
   damage: 1
   speed: {x: 15, y: 0}
   cooldown: 0.3
   bulletPrefab: {fileID: 2961485968122181918, guid: c7c38f586483b76499cffd06e0e6262e, type: 3}
   maxEnergie: 100
   energieLostPerShots: 6
-  energieRegen: 0.2
+  energieRegen: 0.4
   currentEnergieRegen: 0
   canRegen: 1
   currentEnergie: 0
